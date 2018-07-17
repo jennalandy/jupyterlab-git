@@ -1,35 +1,56 @@
-export namespace PathHeader {
-  export interface IState {
-    topRepoPath: string
-    refresh: any
-  }
-
-  export interface IProps {
-    currentFileBrowserPath: string
-    topRepoPath: string
-    refresh: any
-  }
-}
+import {
+  gitRepoStyle,
+  gitRepoIconStyle,
+  gitRepoPathStyle,
+  gitRepoRefreshStyle,
+  arrowStyle,
+  gitRepoPathContainerStyle,
+  directoryStyle
+} from '../components_style/PathHeaderStyle'
 
 import * as React from 'react'
 
 import '../../style/index.css'
 
-export class PathHeader extends React.Component<PathHeader.IProps, PathHeader.IState> {
-  constructor(props: PathHeader.IProps) {
+export interface IPathHeaderState {
+  topRepoPath: string
+  refresh: any
+}
+
+export interface IPathHeaderProps {
+  currentFileBrowserPath: string
+  topRepoPath: string
+  refresh: any
+}
+
+export class PathHeader extends React.Component<IPathHeaderProps, IPathHeaderState> {
+  constructor(props: IPathHeaderProps) {
     super(props)
-    this.state = {topRepoPath: props.topRepoPath, refresh : props.refresh}
+    this.state = {
+      topRepoPath: props.topRepoPath, 
+      refresh: props.refresh
+    }
   }
 
   render() {
+    let relativePath = []
+    if (this.props.currentFileBrowserPath!=='') {
+      relativePath = relativePath.concat(this.props.currentFileBrowserPath.split('/'))
+    }
+
     return (
         <div>
-          <li className='jp-Git-repo'>
-            <span className='jp-Git-repo-icon'/>
-            <span className='jp-Git-repo-path'> 
-              {this.props.topRepoPath}
+          <li className={gitRepoStyle}>
+            <span className={gitRepoIconStyle}/>
+            <span className={gitRepoPathStyle}> 
+              {relativePath.map(directory =>
+                <div className={gitRepoPathContainerStyle} id={directory}>
+                  <div className={arrowStyle}>⌃</div>
+                  <div className={directoryStyle}>{directory}</div>
+                </div>
+              )}
               </span> 
-            <button className='jp-Git-repo-refresh'  onClick={()=>this.props.refresh()} />
+            <button className={gitRepoRefreshStyle} onClick={()=>this.props.refresh()} />
           </li>
         </div>
     )

@@ -17,15 +17,19 @@ import {
 
 import {
   PathHeader
-} from './pathHeader'
+} from './PathHeader'
 
 import {
   BranchHeader
-} from './branchHeader'
+} from './BranchHeader'
 
 import {
   PastCommits
-} from './pastCommits'
+} from './PastCommits'
+
+import {
+  gitContainerStyle
+} from '../components_style/GitSessionNodeStyle'
 
 import '../../style/index.css'
 
@@ -195,7 +199,7 @@ export class GitSessionNode extends React.Component<IGitSessionNodeProps, IGitSe
   
   render() {
     return(
-      <div className='jp-Git-container'>
+      <div className={gitContainerStyle}>
         <PathHeader 
           currentFileBrowserPath={this.state.currentFileBrowserPath} 
           topRepoPath={this.state.topRepoPath} 

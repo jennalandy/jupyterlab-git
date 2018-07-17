@@ -14,6 +14,14 @@ import {
   Git
 } from '../git'
 
+import {
+  branchStyle,
+  branchLabelStyle,
+  switchBranchStyle,
+  branchIconStyle,
+  branchDropdownStyle
+} from '../components_style/BranchHeaderStyle'
+
 import '../../style/index.css'
 
 export interface IBranchHeaderState {
@@ -89,9 +97,9 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
 
   render() {
     return (
-      <div className='jp-Git-branch'>
-        <span className ='jp-Git-branch-label'>
-          <span className='jp-Git-icon-branch'/>
+      <div className={branchStyle}>
+        <span className ={branchLabelStyle}>
+          <span className={branchIconStyle}/>
           {this.state.showNotice ? 
             'Stage and commit changes before switching branches' 
             : this.props.currentBranch
@@ -106,11 +114,11 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
               'Stage and commit changes before switching branches' 
               : 'select branches'
             } 
-            className='jp-Git-branch-dropdown' 
+            className={branchDropdownStyle}
             onChange={event => this.switchBranch(event, this.props.refresh)} 
           >
             <option 
-              className='jp-Git-switch-branch' 
+              className={switchBranchStyle}
               value=' '
               disabled
             >
@@ -130,7 +138,7 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
         </ToggleDisplay> 
         <ToggleDisplay show={this.props.disabled && !this.state.showNotice}>
           <select 
-            className='jp-Git-branch-dropdown' 
+            className={branchDropdownStyle}
             onClick={()=>this.switchBranchDisableNotice()}
           />
         </ToggleDisplay> 
