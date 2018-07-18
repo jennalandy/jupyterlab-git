@@ -1,7 +1,5 @@
 import * as React from 'react'
 
-import ToggleDisplay from 'react-toggle-display'
-
 import {
   Widget
 } from '@phosphor/widgets'
@@ -15,11 +13,17 @@ import {
 } from '../git'
 
 import {
+  classes
+} from 'typestyle'
+
+import {
   branchStyle,
   branchLabelStyle,
   switchBranchStyle,
-  branchIconStyle,
-  branchDropdownStyle
+  branchDropdownStyle,
+  changeButtonStyle,
+  changeButtonDisabledStyle,
+  dropdownStyle
 } from '../components_style/BranchHeaderStyle'
 
 import '../../style/index.css'
@@ -30,7 +34,8 @@ export interface IBranchHeaderState {
   data: any,
   refresh: any,
   disabled: boolean,
-  showNotice: boolean
+  showNotice: boolean,
+  dropdownOpen: boolean
 }
 
 export interface IBranchHeaderProps {
@@ -52,11 +57,12 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
       data: [], 
       refresh: props.refresh, 
       disabled: props.disabled, 
-      showNotice: false
+      showNotice: false,
+      dropdownOpen: false,
     }
   }
 
-/** Switch current working branch */
+  /** Switch current working branch */
   switchBranch(event, refresh) {
     let gitApi = new Git()
     if (event.target.value === '') {
@@ -95,54 +101,70 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
     .bind(this), 3000)
   }
 
+  toggleSelect() {
+    console.log('toggle')
+    console.log(this.state)
+    if (!this.state.disabled) {
+      this.setState({
+        dropdownOpen: !this.state.dropdownOpen
+      })
+    } else {
+      this.switchBranchDisableNotice()
+    }
+  }
+
   render() {
     return (
       <div className={branchStyle}>
         <span className ={branchLabelStyle}>
-          <span className={branchIconStyle}/>
           {this.state.showNotice ? 
             'Stage and commit changes before switching branches' 
             : this.props.currentBranch
           }
         </span>
-        <ToggleDisplay show={!this.props.disabled}>
-          <select 
-            ref="switch_branch_dropdown_button" 
-            value={this.props.currentBranch} 
-            disabled={this.props.disabled} 
-            title={this.props.disabled ? 
-              'Stage and commit changes before switching branches' 
-              : 'select branches'
-            } 
-            className={branchDropdownStyle}
-            onChange={event => this.switchBranch(event, this.props.refresh)} 
+        <a className={this.props.disabled ? 
+          classes(changeButtonStyle, changeButtonDisabledStyle) 
+          : changeButtonStyle} 
+          onClick={() => this.toggleSelect()}
+        >
+          Change
+        </a>
+        {this.state.dropdownOpen &&
+          <div
+            className={dropdownStyle}
           >
-            <option 
-              className={switchBranchStyle}
-              value=' '
-              disabled
+            <select 
+              ref="switch_branch_dropdown_button" 
+              value={this.props.currentBranch} 
+              disabled={this.props.disabled} 
+              title={this.props.disabled ? 
+                'Stage and commit changes before switching branches' 
+                : 'select branches'
+              } 
+              className={branchDropdownStyle}
+              onChange={event => this.switchBranch(event, this.props.refresh)} 
             >
-              **Switch Branches: 
-            </option>
-            {this.props.data.map((dj, dj_index) => {
-                <option value ={dj.name} key={dj_index}>
-                    {dj.name}
-                </option>
-              })
-            }
-            <option className='jp-Git-create-branch-line' disabled />
-            <option className='jp-Git-create-branch' value=''>
-              Create New
-            </option>
-          </select>
-        </ToggleDisplay> 
-        <ToggleDisplay show={this.props.disabled && !this.state.showNotice}>
-          <select 
-            className={branchDropdownStyle}
-            onClick={()=>this.switchBranchDisableNotice()}
-          />
-        </ToggleDisplay> 
-      </div>
+              <option 
+                className={switchBranchStyle}
+                value=' '
+                disabled
+              >
+                Change 
+              </option>
+              {this.props.data.map((dj, dj_index) => {
+                  <option value ={dj.name} key={dj_index}>
+                      {dj.name}
+                  </option>
+                })
+              }
+              <option className='jp-Git-create-branch-line' disabled />
+              <option className='jp-Git-create-branch' value=''>
+                Create New
+              </option>
+            </select>
+          </div> 
+        }
+        </div>
     )
   }
 }

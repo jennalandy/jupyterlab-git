@@ -18,5 +18,6 @@
     --jp-Git-icon-directory-white: url('./images/directory-white.svg');
     --jp-Git-icon-author: url('./images/author.svg');
     --jp-Git-icon-branch: url('./images/branch.svg');
-    --jp-image-caretdownwhite: url('./images/caretdownwhite.svg')
-}
+    --jp-image-caretdownwhite: url('./images/caretdownwhite.svg');
+    --jp-icon-checkmark-white: url('./images/checkmark-white.svg');
+}  
