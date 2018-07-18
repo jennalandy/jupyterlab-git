@@ -198,6 +198,7 @@ export class GitSessionNode extends React.Component<IGitSessionNodeProps, IGitSe
   }
   
   render() {
+    this.refresh()
     return(
       <div className={gitContainerStyle}>
         <PathHeader 

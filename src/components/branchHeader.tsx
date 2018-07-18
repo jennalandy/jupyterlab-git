@@ -104,8 +104,8 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
   toggleSelect() {
     this.props.refresh()
     console.log('toggle')
-    console.log(this.state)
-    if (!this.state.disabled) {
+    console.log(this.props)
+    if (!this.props.disabled) {
       this.setState({
         dropdownOpen: !this.state.dropdownOpen
       })
