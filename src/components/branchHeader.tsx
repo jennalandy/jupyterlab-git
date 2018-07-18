@@ -33,7 +33,6 @@ export interface IBranchHeaderState {
   currentBranch: string,
   data: any,
   refresh: any,
-  disabled: boolean,
   showNotice: boolean,
   dropdownOpen: boolean
 }
@@ -56,7 +55,6 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
       currentBranch: props.currentBranch, 
       data: [], 
       refresh: props.refresh, 
-      disabled: props.disabled, 
       showNotice: false,
       dropdownOpen: false,
     }
@@ -106,10 +104,12 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
     console.log('toggle')
     console.log(this.props)
     if (!this.props.disabled) {
+      console.log('open dropdown')
       this.setState({
         dropdownOpen: !this.state.dropdownOpen
       })
     } else {
+      console.log('show message')
       this.switchBranchDisableNotice()
     }
   }
