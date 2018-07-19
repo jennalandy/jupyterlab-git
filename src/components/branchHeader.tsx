@@ -130,7 +130,7 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
         >
           Change
         </a>
-        {this.state.dropdownOpen &&
+        {/* {this.state.dropdownOpen && */}
           <div
             className={dropdownStyle}
           >
@@ -164,7 +164,7 @@ export class BranchHeader extends React.Component<IBranchHeaderProps, IBranchHea
               </option>
             </select>
           </div> 
-        }
+        
         </div>
     )
   }
