@@ -10,12 +10,6 @@
     --jp-icon-insertions-made: url('./images/insertions-made-icon.svg');
     --jp-icon-deletions-made: url('./images/deletions-made-icon.svg');
     --jp-Git-icon-author: url('./images/author.svg');
-<<<<<<< HEAD
-    --jp-Git-icon-branch: url('./images/branch.svg');
-    --jp-image-caretdownwhite: url('./images/caretdownwhite.svg');
-    --jp-icon-checkmark-white: url('./images/checkmark-white.svg');
-}  
-=======
     --jp-image-caretdownwhite: url('./images/caretdownwhite.svg');
     --jp-caret-right-white: url('./images/caretrightwhite.svg');
     --jp-icon-move-file-down: url('./images/move-file-down.svg');
@@ -29,4 +23,3 @@
     --jp-icon-plus-white: url('./images/plus-white.svg');
     --jp-icon-clear-white: url('./images/clear-white.svg');
 }
->>>>>>> 545262d21d5226b3178bba224875ac5ebe2db37e

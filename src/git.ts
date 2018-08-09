@@ -1,11 +1,11 @@
-import { ServerConnection } from '@jupyterlab/services';
+import { ServerConnection } from "@jupyterlab/services";
 
-import { URLExt } from '@jupyterlab/coreutils';
+import { URLExt } from "@jupyterlab/coreutils";
 
-'use strict';
+"use strict";
 
-/** Interface for GitAllHistory request result, 
-  * has all repo information */
+/** Interface for GitAllHistory request result,
+ * has all repo information */
 export interface GitAllHistory {
   code: number;
   data?: {
@@ -16,31 +16,31 @@ export interface GitAllHistory {
   };
 }
 
-/** Interface for GitShowTopLevel request result, 
-  * has the git root directory inside a repository */
+/** Interface for GitShowTopLevel request result,
+ * has the git root directory inside a repository */
 export interface GitShowTopLevelResult {
   code: number;
   top_repo_path?: string;
 }
 
-/** Interface for GitShowPrefix request result, 
-  * has the prefix path of a directory in a repository, 
-  * with respect to the root directory. */
+/** Interface for GitShowPrefix request result,
+ * has the prefix path of a directory in a repository,
+ * with respect to the root directory. */
 export interface GitShowPrefixResult {
   code: number;
   under_repo_path?: string;
 }
 
-/** Interface for GitShowPrefix request result, 
-  * has the prefix path of a directory in a repository, 
-  * with respect to the root directory. */
+/** Interface for GitShowPrefix request result,
+ * has the prefix path of a directory in a repository,
+ * with respect to the root directory. */
 export interface GitCheckoutResult {
   code: number;
   message?: string;
 }
 
-/** Interface for GitBranch request result, 
-  * has the result of changing the current working branch */
+/** Interface for GitBranch request result,
+ * has the result of changing the current working branch */
 export interface GitBranchResult {
   code: number;
   branches?: [
@@ -53,8 +53,8 @@ export interface GitBranchResult {
   ];
 }
 
-/** Interface for GitStatus request result, 
-   * has the status of each changed file */
+/** Interface for GitStatus request result,
+ * has the status of each changed file */
 export interface GitStatusFileResult {
   x: string;
   y: string;
@@ -62,15 +62,15 @@ export interface GitStatusFileResult {
   from: string;
 }
 
-/** Interface for GitStatus request result, 
-  * has the status of the entire repo */
+/** Interface for GitStatus request result,
+ * has the status of the entire repo */
 export interface GitStatusResult {
   code: number;
   files?: [GitStatusFileResult];
 }
 
-/** Interface for GitLog request result, 
-  * has the info of a single past commit */
+/** Interface for GitLog request result,
+ * has the info of a single past commit */
 export interface SingleCommitInfo {
   commit: string;
   author: string;
@@ -79,8 +79,8 @@ export interface SingleCommitInfo {
   pre_commit: string;
 }
 
-/** Interface for GitCommit request result, 
-  * has the info of a committed file */
+/** Interface for GitCommit request result,
+ * has the info of a committed file */
 export interface CommitModifiedFile {
   modified_file_path: string;
   modified_file_name: string;
@@ -88,8 +88,8 @@ export interface CommitModifiedFile {
   deletion: string;
 }
 
-/** Interface for GitDetailedLog request result, 
-  * has the detailed info of a single past commit */
+/** Interface for GitDetailedLog request result,
+ * has the detailed info of a single past commit */
 export interface SingleCommitFilePathInfo {
   code: number;
   modified_file_note?: string;
@@ -99,8 +99,8 @@ export interface SingleCommitFilePathInfo {
   modified_files?: [CommitModifiedFile];
 }
 
-/** Interface for GitLog request result, 
-  * has the info of all past commits */
+/** Interface for GitLog request result,
+ * has the info of all past commits */
 export interface GitLogResult {
   code: number;
   commits?: [SingleCommitInfo];
@@ -129,7 +129,7 @@ export class Git {
   /** Make request for all git info of repository 'path' */
   async allHistory(path: string): Promise<GitAllHistory> {
     try {
-      let response = await httpGitRequest('/git/all_history', 'POST', {
+      let response = await httpGitRequest("/git/all_history", "POST", {
         current_path: path
       });
       if (response.status !== 200) {
@@ -146,7 +146,7 @@ export class Git {
   /** Make request for top level path of repository 'path' */
   async showTopLevel(path: string): Promise<GitShowTopLevelResult> {
     try {
-      let response = await httpGitRequest('/git/show_top_level', 'POST', {
+      let response = await httpGitRequest("/git/show_top_level", "POST", {
         current_path: path
       });
       if (response.status !== 200) {
@@ -160,11 +160,11 @@ export class Git {
     }
   }
 
-  /** Make request for the prefix path of a directory 'path', 
-    * with respect to the root directory of repository  */
+  /** Make request for the prefix path of a directory 'path',
+   * with respect to the root directory of repository  */
   async showPrefix(path: string): Promise<GitShowPrefixResult> {
     try {
-      let response = await httpGitRequest('/git/show_prefix', 'POST', {
+      let response = await httpGitRequest("/git/show_prefix", "POST", {
         current_path: path
       });
       if (response.status !== 200) {
@@ -181,7 +181,7 @@ export class Git {
   /** Make request for git status of repository 'path' */
   async status(path: string): Promise<GitStatusResult> {
     try {
-      let response = await httpGitRequest('/git/status', 'POST', {
+      let response = await httpGitRequest("/git/status", "POST", {
         current_path: path
       });
       if (response.status !== 200) {
@@ -198,7 +198,7 @@ export class Git {
   /** Make request for git commit logs of repository 'path' */
   async log(path: string): Promise<GitLogResult> {
     try {
-      let response = await httpGitRequest('/git/log', 'POST', {
+      let response = await httpGitRequest("/git/log", "POST", {
         current_path: path
       });
       if (response.status !== 200) {
@@ -212,14 +212,14 @@ export class Git {
     }
   }
 
-  /** Make request for detailed git commit info of 
-    * commit 'hash' in repository 'path' */
+  /** Make request for detailed git commit info of
+   * commit 'hash' in repository 'path' */
   async detailedLog(
     hash: string,
     path: string
   ): Promise<SingleCommitFilePathInfo> {
     try {
-      let response = await httpGitRequest('/git/detailed_log', 'POST', {
+      let response = await httpGitRequest("/git/detailed_log", "POST", {
         selected_hash: hash,
         current_path: path
       });
@@ -237,7 +237,7 @@ export class Git {
   /** Make request for a list of all git branches in repository 'path' */
   async branch(path: string): Promise<GitBranchResult> {
     try {
-      let response = await httpGitRequest('/git/branch', 'POST', {
+      let response = await httpGitRequest("/git/branch", "POST", {
         current_path: path
       });
       if (response.status !== 200) {
@@ -251,21 +251,21 @@ export class Git {
     }
   }
 
-  /** Make request to add one or all files into 
-    * the staging area in repository 'path' */
+  /** Make request to add one or all files into
+   * the staging area in repository 'path' */
   add(check: boolean, filename: string, path: string): Promise<Response> {
-    return httpGitRequest('/git/add', 'POST', {
+    return httpGitRequest("/git/add", "POST", {
       add_all: check,
       filename: filename,
       top_repo_path: path
     });
   }
 
-  /** Make request to add all untracked files into 
-    * the staging area in repository 'path' */
+  /** Make request to add all untracked files into
+   * the staging area in repository 'path' */
   async addAllUntracked(path: string) {
     try {
-      let response = await httpGitRequest('/git/add_all_untracked', 'POST', {
+      let response = await httpGitRequest("/git/add_all_untracked", "POST", {
         top_repo_path: path
       });
       if (response.status !== 200) {
@@ -279,11 +279,11 @@ export class Git {
     }
   }
 
-  /** Make request to switch current working branch, 
-    * create new branch if needed, 
-    * or discard all changes, 
-    * or discard a specific file change 
-    * TODO: Refactor into seperate endpoints for each kind of checkout request */
+  /** Make request to switch current working branch,
+   * create new branch if needed,
+   * or discard all changes,
+   * or discard a specific file change
+   * TODO: Refactor into seperate endpoints for each kind of checkout request */
   async checkout(
     checkout_branch: boolean,
     new_check: boolean,
@@ -293,7 +293,7 @@ export class Git {
     path: string
   ): Promise<Response> {
     try {
-      let response = await httpGitRequest('/git/checkout', 'POST', {
+      let response = await httpGitRequest("/git/checkout", "POST", {
         checkout_branch: checkout_branch,
         new_check: new_check,
         branchname: branchname,
@@ -313,7 +313,7 @@ export class Git {
   }
   /** Make request to commit all staged files in repository 'path' */
   commit(message: string, path: string): Promise<Response> {
-    return httpGitRequest('/git/commit', 'POST', {
+    return httpGitRequest("/git/commit", "POST", {
       commit_msg: message,
       top_repo_path: path
     });
@@ -321,15 +321,43 @@ export class Git {
 
   /** Make request to move one or all files from the staged to the unstaged area */
   reset(check: boolean, filename: string, path: string): Promise<Response> {
-    return httpGitRequest('/git/reset', 'POST', {
+    return httpGitRequest("/git/reset", "POST", {
       reset_all: check,
       filename: filename,
       top_repo_path: path
     });
   }
 
+  /** Make request to delete changes from selected commit */
+  async deleteCommit(
+    message: string,
+    path: string,
+    commitId: string
+  ): Promise<Response> {
+    const request = await httpGitRequest("/git/delete_commit", "POST", {
+      commit_id: commitId,
+      top_repo_path: path
+    });
+    await this.commit(message, path);
+    return request;
+  }
+
+  /** Make request to reset to selected commit */
+  async resetToCommit(
+    message: string,
+    path: string,
+    commitId: string
+  ): Promise<Response> {
+    const request = await httpGitRequest("/git/reset_to_commit", "POST", {
+      commit_id: commitId,
+      top_repo_path: path
+    });
+    await this.commit(message, path);
+    return request;
+  }
+
   /** Make request to initialize a  new git repository at path 'path' */
   init(path: string): Promise<Response> {
-    return httpGitRequest('/git/init', 'POST', { current_path: path });
+    return httpGitRequest("/git/init", "POST", { current_path: path });
   }
 }
