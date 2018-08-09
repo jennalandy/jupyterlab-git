@@ -1,5 +1,5 @@
 """
-Handler Module with all the individual handlers for the jupyterlab-gitextension.
+Module with all the individual handlers, which execute git commands and return the results to the frontend.
 """
 import json
 
@@ -10,7 +10,7 @@ from notebook.base.handlers import APIHandler
 
 class Git_handler(APIHandler):
     """
-    Git Parent Handler.
+    Top-level parent class.
     """
 
     @property
@@ -65,7 +65,7 @@ class Git_show_top_level_handler(Git_handler):
         """
         POST request handler, displays the git root directory inside a repository.
         """
-        my_data = json.loads(self.request.body.decode("utf-8")) 
+        my_data = json.loads(self.request.body.decode("utf-8"))
         current_path = my_data["current_path"]
         result = self.git.show_top_level(current_path)
         self.finish(json.dumps(result))
@@ -181,6 +181,7 @@ class Git_branch_handler(Git_handler):
         current_path = my_data["current_path"]
         result = self.git.branch(current_path)
         self.finish(json.dumps(result))
+
 
 class Git_add_handler(Git_handler):
     """
